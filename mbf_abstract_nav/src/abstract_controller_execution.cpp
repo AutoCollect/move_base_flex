@@ -42,6 +42,8 @@
 
 #include "mbf_abstract_nav/abstract_controller_execution.h"
 
+#include <std_msgs/Float32.h>
+
 namespace mbf_abstract_nav
 {
 
@@ -72,6 +74,9 @@ AbstractControllerExecution::AbstractControllerExecution(
   private_nh.param("angle_tolerance", angle_tolerance_, M_PI / 18.0);
   private_nh.param("tf_timeout", tf_timeout_, 1.0);
   private_nh.param("cmd_vel_ignored_tolerance", cmd_vel_ignored_tolerance_, 5.0);
+
+  vel_x_pub_ = private_nh.advertise<std_msgs::Float32>("velocity_vx", 10);
+  vel_w_pub_ = private_nh.advertise<std_msgs::Float32>("velocity_vw", 10);
 
   // dynamically reconfigurable parameters
   reconfigure(config);
@@ -421,6 +426,13 @@ void AbstractControllerExecution::run()
         {
           setState(GOT_LOCAL_CMD);
           vel_pub_.publish(cmd_vel_stamped.twist);
+
+          std_msgs::Float32 vx, vw;
+          vx.data = cmd_vel_stamped.twist.linear.x;
+          vw.data = cmd_vel_stamped.twist.angular.z;
+          vel_x_pub_.publish(vx);
+          vel_w_pub_.publish(vw);
+
           last_valid_cmd_time_ = ros::Time::now();
           retries = 0;
           // check if robot is ignoring velocity command
@@ -467,6 +479,13 @@ void AbstractControllerExecution::run()
             // we are retrying compute velocity commands; we keep sending the command calculated by the plugin
             // with the expectation that it's a sensible one (e.g. slow down while respecting acceleration limits)
             vel_pub_.publish(cmd_vel_stamped.twist);
+
+            std_msgs::Float32 vx, vw;
+            vx.data = cmd_vel_stamped.twist.linear.x;
+            vw.data = cmd_vel_stamped.twist.angular.z;
+            vel_x_pub_.publish(vx);
+            vel_w_pub_.publish(vw);
+
           }
         }
 
@@ -520,6 +539,12 @@ void AbstractControllerExecution::publishZeroVelocity()
   cmd_vel.angular.y = 0;
   cmd_vel.angular.z = 0;
   vel_pub_.publish(cmd_vel);
+
+  std_msgs::Float32 vx, vw;
+  vx.data = cmd_vel.linear.x;
+  vw.data = cmd_vel.angular.z;
+  vel_x_pub_.publish(vx);
+  vel_w_pub_.publish(vw);
 }
 
 } /* namespace mbf_abstract_nav */
