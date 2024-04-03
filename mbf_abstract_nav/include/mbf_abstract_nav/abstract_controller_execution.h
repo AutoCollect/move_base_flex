@@ -374,6 +374,8 @@ namespace mbf_abstract_nav
     //! time tolerance for checking if the robot is ignoring cmd_vel
     double cmd_vel_ignored_tolerance_;
 
+    ros::Publisher vel_x_pub_;
+    ros::Publisher vel_w_pub_;
   };
 
 } /* namespace mbf_abstract_nav */
