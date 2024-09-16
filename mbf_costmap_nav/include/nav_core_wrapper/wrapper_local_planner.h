@@ -118,6 +118,8 @@ namespace mbf_nav_core_wrapper {
        * @brief  Virtual destructor for the interface
        */
       virtual ~WrapperLocalPlanner();
+      
+      virtual void initLocalPlan();
 
     private:
       boost::shared_ptr< nav_core::BaseLocalPlanner > nav_core_plugin_;
