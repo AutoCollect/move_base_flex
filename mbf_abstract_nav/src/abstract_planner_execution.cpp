@@ -124,6 +124,42 @@ void AbstractPlannerExecution::setState(PlanningState state, bool signalling)
   boost::lock_guard<boost::mutex> guard(state_mtx_);
   state_ = state;
 
+  // switch(state_) {
+  // case INITIALIZED:
+  //   ROS_WARN("[Planner] INITIALIZED");
+  //   break;
+  // case STARTED:
+  //   ROS_WARN("[Planner] STARTED");
+  //   break;
+  // case PLANNING:
+  //   ROS_WARN("[Planner] PLANNING");
+  //   break;
+  // case FOUND_PLAN:
+  //   ROS_WARN("[Planner] FOUND_PLAN");
+  //   break;
+  // case MAX_RETRIES:
+  //   ROS_WARN("[Planner] MAX_RETRIES");
+  //   break;
+  // case PAT_EXCEEDED:
+  //   ROS_WARN("[Planner] PAT_EXCEEDED");
+  //   break;
+  // case NO_PLAN_FOUND:
+  //   ROS_WARN("[Planner] NO_PLAN_FOUND");
+  //   break;
+  // case CANCELED:
+  //   ROS_WARN("[Planner] CANCELED");
+  //   break;
+  // case STOPPED:
+  //   ROS_WARN("[Planner] STOPPED");
+  //   break;
+  // case INTERNAL_ERROR:
+  //   ROS_WARN("[Planner] INTERNAL_ERROR");
+  //   break;
+  // default:
+  //   ROS_WARN("[Planner] Out of Scope");
+  //   break;
+  // }
+
   // we exit planning if we are signalling.
   planning_ = !signalling;
 
@@ -284,7 +320,7 @@ void AbstractPlannerExecution::run()
       else
       {
         setState(PLANNING, false);
-
+        ROS_ERROR("AbstractPlannerExecution::run -> makePlan");
         outcome_ = makePlan(current_start, current_goal, current_tolerance, plan, cost, message_);
         bool success = outcome_ < 10;
 

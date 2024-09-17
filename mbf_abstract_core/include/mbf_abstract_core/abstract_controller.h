@@ -116,6 +116,8 @@ namespace mbf_abstract_core{
        */
       virtual bool cancel() = 0;
 
+      virtual void initLocalPlan() = 0;
+
     protected:
       /**
        * @brief Constructor

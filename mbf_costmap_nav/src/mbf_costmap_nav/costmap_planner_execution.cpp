@@ -93,8 +93,10 @@ uint32_t CostmapPlannerExecution::makePlan(const geometry_msgs::PoseStamped &sta
   if (lock_costmap_)
   {
     boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(costmap_ptr_->getCostmap()->getMutex()));
+    // ROS_ERROR("CostmapPlannerExecution::makePlan -> makePlan lock_costmap_");
     return planner_->makePlan(g_start, g_goal, tolerance, plan, cost, message);
   }
+  // ROS_ERROR("CostmapPlannerExecution::makePlan -> makePlan");
   return planner_->makePlan(g_start, g_goal, tolerance, plan, cost, message);
 }
 

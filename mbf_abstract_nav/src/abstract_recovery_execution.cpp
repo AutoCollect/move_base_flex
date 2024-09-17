@@ -78,6 +78,36 @@ void AbstractRecoveryExecution::setState(RecoveryState state)
 {
   boost::lock_guard<boost::mutex> guard(state_mtx_);
   state_ = state;
+
+  // switch(state_) {
+  // case INITIALIZED:
+  //   ROS_ERROR("[Recovery] INITIALIZED");
+  //   break;
+  // case STARTED:
+  //   ROS_ERROR("[Recovery] STARTED");
+  //   break;
+  // case RECOVERING:
+  //   ROS_ERROR("[Recovery] RECOVERING");
+  //   break;
+  // case WRONG_NAME:
+  //   ROS_ERROR("[Recovery] WRONG_NAME");
+  //   break;
+  // case RECOVERY_DONE:
+  //   ROS_ERROR("[Recovery] RECOVERY_DONE");
+  //   break;
+  // case CANCELED:
+  //   ROS_ERROR("[Recovery] CANCELED");
+  //   break;
+  // case STOPPED:
+  //   ROS_ERROR("[Recovery] STOPPED");
+  //   break;
+  // case INTERNAL_ERROR:
+  //   ROS_ERROR("[Recovery] INTERNAL_ERROR");
+  //   break;
+  // default:
+  //   ROS_ERROR("[Recovery] Out of Scope");
+  //   break;
+  // }
 }
 
 

@@ -91,4 +91,9 @@ WrapperLocalPlanner::WrapperLocalPlanner(boost::shared_ptr<nav_core::BaseLocalPl
 WrapperLocalPlanner::~WrapperLocalPlanner()
 {}
 
+void WrapperLocalPlanner::initLocalPlan() {
+  nav_core_plugin_->initLocalPlan();
+}
+
+
 };  /* namespace mbf_abstract_core */

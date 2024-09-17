@@ -114,6 +114,10 @@ void AbstractControllerExecution::reconfigure(const MoveBaseFlexConfig &config)
 bool AbstractControllerExecution::start()
 {
   setState(STARTED);
+
+  // init local plan
+  controller_->initLocalPlan();
+
   if (moving_)
   {
     return false; // thread is already running.
@@ -127,6 +131,54 @@ void AbstractControllerExecution::setState(ControllerState state)
 {
   boost::lock_guard<boost::mutex> guard(state_mtx_);
   state_ = state;
+  // debug print
+  // switch(state_) {
+  // case INITIALIZED:
+  //   ROS_INFO("[Controller] INITIALIZED");
+  //   break;
+  // case STARTED:
+  //   ROS_INFO("[Controller] STARTED");
+  //   break;
+  // case PLANNING:
+  //   ROS_INFO("[Controller] PLANNING");
+  //   break;
+  // case NO_PLAN:
+  //   ROS_INFO("[Controller] NO_PLAN");
+  //   break;
+  // case MAX_RETRIES:
+  //   ROS_INFO("[Controller] MAX_RETRIES");
+  //   break;
+  // case PAT_EXCEEDED:
+  //   ROS_INFO("[Controller] PAT_EXCEEDED");
+  //   break;
+  // case EMPTY_PLAN:
+  //   ROS_INFO("[Controller] EMPTY_PLAN");
+  //   break;
+  // case INVALID_PLAN:
+  //   ROS_INFO("[Controller] INVALID_PLAN");
+  //   break;
+  // case NO_LOCAL_CMD:
+  //   ROS_INFO("[Controller] NO_LOCAL_CMD");
+  //   break;
+  // case GOT_LOCAL_CMD:
+  //   ROS_INFO("[Controller] GOT_LOCAL_CMD");
+  //   break;
+  // case ARRIVED_GOAL:
+  //   ROS_INFO("[Controller] ARRIVED_GOAL");
+  //   break;
+  // case STOPPED:
+  //   ROS_INFO("[Controller] STOPPED");
+  //   break;
+  // case INTERNAL_ERROR:
+  //   ROS_INFO("[Controller] INTERNAL_ERROR");
+  //   break;
+  // case ROBOT_DISABLED:
+  //   ROS_INFO("[Controller] ROBOT_DISABLED");
+  //   break;
+  // default:
+  //   ROS_INFO("[Controller] Out of Scope");
+  //   break;
+  // }
 }
 
 typename AbstractControllerExecution::ControllerState AbstractControllerExecution::getState() const

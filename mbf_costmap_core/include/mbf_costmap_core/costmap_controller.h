@@ -127,6 +127,8 @@ namespace mbf_costmap_core {
        */
       virtual ~CostmapController(){}
 
+      virtual void initLocalPlan() = 0;
+
     protected:
       CostmapController(){}
 
