@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "Suppress developer warnings")
 
 # Set policies to avoid deprecation warnings
-cmake_policy(SET CMP0148 OLD)
-cmake_policy(SET CMP0167 OLD)
+# cmake_policy(SET CMP0148 OLD)
+# cmake_policy(SET CMP0167 OLD)
 
 project(mbf_utility)
 
