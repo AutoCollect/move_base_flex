@@ -320,7 +320,7 @@ void AbstractPlannerExecution::run()
       else
       {
         setState(PLANNING, false);
-        ROS_ERROR("AbstractPlannerExecution::run -> makePlan");
+        ROS_ERROR("[MBF] AbstractPlannerExecution::run -> makePlan");
         outcome_ = makePlan(current_start, current_goal, current_tolerance, plan, cost, message_);
         bool success = outcome_ < 10;
 
