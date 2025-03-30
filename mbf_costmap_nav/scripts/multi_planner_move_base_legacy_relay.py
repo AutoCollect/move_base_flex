@@ -70,7 +70,7 @@ def mb_reconf_cb(config, level):
     # Process base_local_planner.
     if 'base_local_planner' in mbf_config:
         blp = mbf_config.pop('base_local_planner')
-        rospy.loginfo("Using base_local_planner: %s", blp)
+        rospy.loginfo("[MB Legacy] Using base_local_planner: %s", blp)
 
     # Process other non-global parameters.
     for param in ['controller_frequency', 'controller_patience', 'max_controller_retries',
@@ -79,7 +79,7 @@ def mb_reconf_cb(config, level):
             mbf_config[param] = mbf_config.pop(param)
     # Remove unsupported parameter max_planning_retries.
     if 'max_planning_retries' in mbf_config:
-        rospy.loginfo("Removing unsupported parameter: max_planning_retries")
+        rospy.loginfo("[MB Legacy] Removing unsupported parameter: max_planning_retries")
         mbf_config.pop('max_planning_retries')
     # Process recovery_behavior_enabled mapping.
     if 'recovery_behavior_enabled' in mbf_config:
@@ -93,21 +93,21 @@ def mb_reconf_cb(config, level):
             value = mbf_config.pop(key)
             if value.upper() != "NONE":
                 global_planners[key] = value
-                rospy.logerr("Loaded global planner parameter: %s = %s", key, value)
+                rospy.logerr("[MB Legacy] Loaded global planner parameter: %s = %s", key, value)
             else:
                 rospy.logerr("Ignoring global planner parameter %s because it is set to NONE", key)
     
     if global_planners:
-        rospy.logerr("All loaded global planners: %s", global_planners)
+        rospy.loginfo("[MB Legacy] All loaded global planners: %s", global_planners)
     else:
         rospy.logwarn("No global planner parameters loaded!")
 
     # Get the active global planner key from the configuration.
     active_key = mbf_config.pop("active_global_planner", "NONE")
-    rospy.logerr("Active global planner selection: %s", active_key)
+    rospy.logerr("[MB Legacy] Active global planner selection: %s", active_key)
     if active_key.upper() != "NONE" and active_key in global_planners:
         bgp = global_planners[active_key]
-        rospy.logerr("Using active global planner: %s = %s", active_key, bgp)
+        rospy.loginfo("[MB Legacy] Using active global planner: %s = %s", active_key, bgp)
     elif global_planners:
         # Default to the first available global planner.
         active_key, bgp = next(iter(global_planners.items()))
@@ -122,7 +122,7 @@ def mb_reconf_cb(config, level):
         if param in mbf_config:
             mbf_config.pop(param)
     
-    rospy.loginfo("Updating MBF dynamic reconfigure with: %s", mbf_config)
+    # rospy.loginfo("Updating MBF dynamic reconfigure with: %s", mbf_config)
     mbf_drc.update_configuration(mbf_config)
     return config
 
